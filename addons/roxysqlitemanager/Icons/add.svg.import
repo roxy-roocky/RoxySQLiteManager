@@ -1,0 +1,22 @@
+[remap]
+
+importer="svg"
+type="DPITexture"
+uid="uid://cvvklwqiip36l"
+path="res://.godot/imported/add.svg-76d03e9835f8cceea4062969deabee9e.dpitex"
+
+[deps]
+
+source_file="res://addons/roxysqlitemanager/Icons/add.svg"
+dest_files=["res://.godot/imported/add.svg-76d03e9835f8cceea4062969deabee9e.dpitex"]
+
+[params]
+
+base_scale=1.0
+saturation=1.0
+color_map={
+Color(0, 0, 0, 1): Color(1, 1, 1, 1)
+}
+fix_alpha_border=false
+premult_alpha=false
+compress=true

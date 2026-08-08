@@ -1,9 +1,29 @@
 [gd_scene format=3 uid="uid://dbixaiesc5ryw"]
 
-[ext_resource type="Texture2D" uid="uid://ba7esnsrgndqe" path="res://addons/roxysqlitemanager/Icons/folder-open.svg" id="1_ie0ia"]
-[ext_resource type="Texture2D" uid="uid://cvvklwqiip36l" path="res://addons/roxysqlitemanager/Icons/add.svg" id="2_40ym4"]
+[ext_resource type="Script" uid="uid://ckd150btcatda" path="res://addons/roxysqlitemanager/UI/db_viewer.gd" id="1_m7rx5"]
+[ext_resource type="Script" uid="uid://c715a5ofl8gyy" path="res://addons/roxysqlitemanager/UI/db_menu_bar.gd" id="2_m7rx5"]
+[ext_resource type="Texture2D" uid="uid://ba7esnsrgndqe" path="res://addons/roxysqlitemanager/Icons/folder-open.svg" id="2_yd1rl"]
+[ext_resource type="Texture2D" uid="uid://cvvklwqiip36l" path="res://addons/roxysqlitemanager/Icons/add.svg" id="3_m7rx5"]
+[ext_resource type="Script" uid="uid://btvg45mb21jkf" path="res://addons/roxysqlitemanager/Tools/themable_icon.gd" id="4_2x2bt"]
 
-[node name="DbViewer" type="HSplitContainer" unique_id=1848100582]
+[sub_resource type="Image" id="Image_2x2bt"]
+data = {
+"data": PackedByteArray(255, 255, 255, 0, 255, 255, 255, 2, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 3, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 2, 255, 255, 255, 0, 255, 255, 255, 7, 255, 255, 255, 107, 255, 255, 255, 143, 255, 255, 255, 140, 255, 255, 255, 141, 255, 255, 255, 141, 255, 255, 255, 141, 255, 255, 255, 140, 255, 255, 255, 143, 255, 255, 255, 104, 255, 255, 255, 4, 255, 255, 255, 0, 255, 255, 255, 6, 255, 255, 255, 4, 255, 255, 255, 4, 255, 255, 255, 4, 255, 255, 255, 4, 255, 255, 255, 4, 255, 255, 255, 4, 255, 255, 255, 2, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 7, 255, 255, 255, 204, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 213, 255, 255, 255, 42, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 3, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 103, 255, 255, 255, 255, 255, 255, 255, 247, 255, 255, 255, 251, 255, 255, 255, 251, 255, 255, 255, 251, 255, 255, 255, 251, 255, 255, 255, 251, 255, 255, 255, 251, 255, 255, 255, 251, 255, 255, 255, 249, 255, 255, 255, 255, 255, 255, 255, 249, 255, 255, 255, 129, 255, 255, 255, 100, 255, 255, 255, 105, 255, 255, 255, 104, 255, 255, 255, 103, 255, 255, 255, 104, 255, 255, 255, 100, 255, 255, 255, 35, 255, 255, 255, 0, 255, 255, 255, 2, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 137, 255, 255, 255, 255, 255, 255, 255, 251, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 252, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 82, 255, 255, 255, 0, 255, 255, 255, 3, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 134, 255, 255, 255, 255, 255, 255, 255, 251, 255, 255, 255, 252, 255, 255, 255, 252, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 253, 255, 255, 255, 250, 255, 255, 255, 250, 255, 255, 255, 250, 255, 255, 255, 250, 255, 255, 255, 250, 255, 255, 255, 250, 255, 255, 255, 248, 255, 255, 255, 255, 255, 255, 255, 233, 255, 255, 255, 9, 255, 255, 255, 0, 255, 255, 255, 1, 255, 255, 255, 0, 255, 255, 255, 135, 255, 255, 255, 255, 255, 255, 255, 248, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 42, 255, 255, 255, 0, 255, 255, 255, 2, 255, 255, 255, 0, 255, 255, 255, 135, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 192, 255, 255, 255, 89, 255, 255, 255, 57, 255, 255, 255, 56, 255, 255, 255, 56, 255, 255, 255, 56, 255, 255, 255, 56, 255, 255, 255, 56, 255, 255, 255, 56, 255, 255, 255, 56, 255, 255, 255, 56, 255, 255, 255, 56, 255, 255, 255, 56, 255, 255, 255, 56, 255, 255, 255, 56, 255, 255, 255, 56, 255, 255, 255, 56, 255, 255, 255, 56, 255, 255, 255, 55, 255, 255, 255, 12, 255, 255, 255, 2, 255, 255, 255, 1, 255, 255, 255, 0, 255, 255, 255, 132, 255, 255, 255, 255, 255, 255, 255, 137, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 146, 255, 255, 255, 222, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 84, 255, 255, 255, 170, 255, 255, 255, 169, 255, 255, 255, 169, 255, 255, 255, 169, 255, 255, 255, 169, 255, 255, 255, 169, 255, 255, 255, 169, 255, 255, 255, 169, 255, 255, 255, 169, 255, 255, 255, 169, 255, 255, 255, 169, 255, 255, 255, 169, 255, 255, 255, 169, 255, 255, 255, 169, 255, 255, 255, 169, 255, 255, 255, 169, 255, 255, 255, 168, 255, 255, 255, 172, 255, 255, 255, 124, 255, 255, 255, 6, 255, 255, 255, 0, 255, 255, 255, 153, 255, 255, 255, 123, 255, 255, 255, 0, 255, 255, 255, 70, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 168, 255, 255, 255, 0, 255, 255, 255, 128, 255, 255, 255, 51, 255, 255, 255, 0, 255, 255, 255, 169, 255, 255, 255, 255, 255, 255, 255, 247, 255, 255, 255, 251, 255, 255, 255, 251, 255, 255, 255, 251, 255, 255, 255, 251, 255, 255, 255, 251, 255, 255, 255, 251, 255, 255, 255, 251, 255, 255, 255, 251, 255, 255, 255, 251, 255, 255, 255, 251, 255, 255, 255, 251, 255, 255, 255, 251, 255, 255, 255, 251, 255, 255, 255, 251, 255, 255, 255, 251, 255, 255, 255, 251, 255, 255, 255, 250, 255, 255, 255, 255, 255, 255, 255, 241, 255, 255, 255, 0, 255, 255, 255, 65, 255, 255, 255, 3, 255, 255, 255, 13, 255, 255, 255, 235, 255, 255, 255, 255, 255, 255, 255, 254, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 253, 255, 255, 255, 255, 255, 255, 255, 186, 255, 255, 255, 0, 255, 255, 255, 6, 255, 255, 255, 0, 255, 255, 255, 82, 255, 255, 255, 255, 255, 255, 255, 252, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 253, 255, 255, 255, 255, 255, 255, 255, 95, 255, 255, 255, 0, 255, 255, 255, 3, 255, 255, 255, 0, 255, 255, 255, 166, 255, 255, 255, 255, 255, 255, 255, 251, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 254, 255, 255, 255, 255, 255, 255, 255, 235, 255, 255, 255, 20, 255, 255, 255, 1, 255, 255, 255, 0, 255, 255, 255, 15, 255, 255, 255, 236, 255, 255, 255, 255, 255, 255, 255, 254, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 251, 255, 255, 255, 255, 255, 255, 255, 169, 255, 255, 255, 0, 255, 255, 255, 4, 255, 255, 255, 0, 255, 255, 255, 83, 255, 255, 255, 255, 255, 255, 255, 252, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 251, 255, 255, 255, 255, 255, 255, 255, 86, 255, 255, 255, 0, 255, 255, 255, 4, 255, 255, 255, 0, 255, 255, 255, 164, 255, 255, 255, 255, 255, 255, 255, 251, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 255, 255, 255, 255, 240, 255, 255, 255, 18, 255, 255, 255, 0, 255, 255, 255, 4, 255, 255, 255, 0, 255, 255, 255, 162, 255, 255, 255, 255, 255, 255, 255, 251, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 251, 255, 255, 255, 255, 255, 255, 255, 173, 255, 255, 255, 0, 255, 255, 255, 4, 255, 255, 255, 2, 255, 255, 255, 0, 255, 255, 255, 32, 255, 255, 255, 214, 255, 255, 255, 255, 255, 255, 255, 253, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 254, 255, 255, 255, 253, 255, 255, 255, 255, 255, 255, 255, 219, 255, 255, 255, 37, 255, 255, 255, 0, 255, 255, 255, 2, 255, 255, 255, 0, 255, 255, 255, 2, 255, 255, 255, 0, 255, 255, 255, 3, 255, 255, 255, 40, 255, 255, 255, 40, 255, 255, 255, 39, 255, 255, 255, 40, 255, 255, 255, 40, 255, 255, 255, 40, 255, 255, 255, 40, 255, 255, 255, 40, 255, 255, 255, 40, 255, 255, 255, 40, 255, 255, 255, 40, 255, 255, 255, 40, 255, 255, 255, 40, 255, 255, 255, 40, 255, 255, 255, 40, 255, 255, 255, 39, 255, 255, 255, 39, 255, 255, 255, 40, 255, 255, 255, 4, 255, 255, 255, 0, 255, 255, 255, 2, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 2, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 2, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 1, 255, 255, 255, 2, 255, 255, 255, 2, 255, 255, 255, 2, 255, 255, 255, 2, 255, 255, 255, 2, 255, 255, 255, 2, 255, 255, 255, 2, 255, 255, 255, 2, 255, 255, 255, 2, 255, 255, 255, 2, 255, 255, 255, 2, 255, 255, 255, 2, 255, 255, 255, 2, 255, 255, 255, 2, 255, 255, 255, 2, 255, 255, 255, 2, 255, 255, 255, 2, 255, 255, 255, 2, 255, 255, 255, 1, 255, 255, 255, 0, 255, 255, 255, 0, 255, 255, 255, 0),
+"format": "RGBA8",
+"height": 23,
+"mipmaps": false,
+"width": 26
+}
+
+[sub_resource type="ImageTexture" id="ImageTexture_yd1rl"]
+image = SubResource("Image_2x2bt")
+script = ExtResource("4_2x2bt")
+orig_image = ExtResource("2_yd1rl")
+metadata/_custom_type_script = "uid://btvg45mb21jkf"
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_m7rx5"]
+
+[node name="DbViewer" type="PanelContainer" unique_id=1891037452]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -11,57 +31,108 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+script = ExtResource("1_m7rx5")
 
-[node name="PanelContainer" type="PanelContainer" parent="." unique_id=716781679]
+[node name="Split" type="HSplitContainer" parent="." unique_id=1848100582]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+split_offsets = PackedInt32Array(162)
+split_offset = 162
+
+[node name="PanelContainer" type="PanelContainer" parent="Split" unique_id=716781679]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Split/PanelContainer" unique_id=159494505]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Split/PanelContainer/MarginContainer" unique_id=1864275455]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer" unique_id=159494505]
-layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
-
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer" unique_id=1864275455]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=587351848]
+[node name="HBoxContainer" type="HBoxContainer" parent="Split/PanelContainer/MarginContainer/VBoxContainer" unique_id=587351848]
 layout_mode = 2
 
-[node name="OpenDbButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1221028986]
+[node name="DbMenuBar" type="MenuBar" parent="Split/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1099994318]
 layout_mode = 2
-theme_override_constants/h_separation = 10
-theme_override_constants/icon_max_width = 24
-text = "Open database"
-icon = ExtResource("1_ie0ia")
-alignment = 0
+flat = true
+prefer_global_menu = false
+script = ExtResource("2_m7rx5")
 
-[node name="CreateDbButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" unique_id=120494983]
-layout_mode = 2
-theme_override_constants/h_separation = 10
-theme_override_constants/icon_max_width = 24
-text = "Create database"
-icon = ExtResource("2_40ym4")
-alignment = 0
+[node name="Databases" type="PopupMenu" parent="Split/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/DbMenuBar" unique_id=19559632]
+oversampling_override = 1.0
+theme_override_constants/icon_max_width = 25
+item_count = 2
+item_0/text = "Open database..."
+item_0/icon = SubResource("ImageTexture_yd1rl")
+item_0/id = 0
+item_1/text = "New database..."
+item_1/icon = ExtResource("3_m7rx5")
+item_1/id = 1
 
-[node name="Tree" type="Tree" parent="PanelContainer/MarginContainer/VBoxContainer" unique_id=1914268261]
+[node name="SQL" type="PopupMenu" parent="Split/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/DbMenuBar" unique_id=1777533355]
+theme_override_constants/icon_max_width = 25
+
+[node name="🔄" type="PopupMenu" parent="Split/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/DbMenuBar" unique_id=826365789]
+oversampling_override = 1.0
+theme_override_constants/icon_max_width = 25
+
+[node name="DbTree" type="Tree" parent="Split/PanelContainer/MarginContainer/VBoxContainer" unique_id=1914268261]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1116633282]
+[node name="MarginContainer" type="MarginContainer" parent="Split" unique_id=1116633282]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
 
-[node name="CodeEdit" type="CodeEdit" parent="MarginContainer" unique_id=896361884]
+[node name="TabContainer" type="TabContainer" parent="Split/MarginContainer" unique_id=2052364898]
+layout_mode = 2
+theme_override_constants/side_margin = 16
+theme_override_styles/panel = SubResource("StyleBoxEmpty_m7rx5")
+current_tab = 0
+
+[node name="Test1" type="CodeEdit" parent="Split/MarginContainer/TabContainer" unique_id=896361884]
 layout_mode = 2
 size_flags_horizontal = 3
 indent_wrapped_lines = true
 line_folding = true
 gutters_draw_line_numbers = true
+metadata/_tab_index = 0
+
+[node name="Test2" type="CodeEdit" parent="Split/MarginContainer/TabContainer" unique_id=1177952364]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+indent_wrapped_lines = true
+line_folding = true
+gutters_draw_line_numbers = true
+metadata/_tab_index = 1
+
+[node name="Test3" type="CodeEdit" parent="Split/MarginContainer/TabContainer" unique_id=381998209]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+indent_wrapped_lines = true
+line_folding = true
+gutters_draw_line_numbers = true
+metadata/_tab_index = 2
+
+[node name="Test4" type="CodeEdit" parent="Split/MarginContainer/TabContainer" unique_id=699026183]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+indent_wrapped_lines = true
+line_folding = true
+gutters_draw_line_numbers = true
+metadata/_tab_index = 3
+
+[node name="FileDialog" type="FileDialog" parent="Split" unique_id=1435018041]
+oversampling_override = 1.0
+display_mode = 1
+filters = PackedStringArray("*.db")
+
+[connection signal="theme_changed" from="." to="." method="_on_theme_changed"]
+[connection signal="theme_changed" from="Split/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/DbMenuBar" to="Split/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/DbMenuBar" method="_on_theme_changed"]
+[connection signal="about_to_popup" from="Split/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/DbMenuBar/🔄" to="." method="_on_debug_button_pressed"]

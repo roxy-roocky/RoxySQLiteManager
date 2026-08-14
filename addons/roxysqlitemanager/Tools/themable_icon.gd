@@ -11,8 +11,13 @@ const PluginGlobals = preload("res://addons/roxysqlitemanager/globals.gd")
 		orig_image = val
 		generate_image()
 		
-@export var default_size: float = 16
-		
+@export var default_size: float = 16:
+	get:
+		return default_size
+	set(val):
+		default_size = val
+		generate_image()
+
 func generate_image():
 	if orig_image:
 		var img := orig_image.get_image()
@@ -34,7 +39,11 @@ func generate_image():
 		
 		self.set_image(img)
 	
-func _init() -> void:
+func _init(texture: Texture2D = null, default_size: int = 16) -> void:
+	if is_instance_valid(texture):
+		default_size = default_size
+		orig_image = texture
+	
 	var reg: Dictionary[int, WeakRef]
 	if !Engine.has_meta(PluginGlobals.ROXY_SQLITE_MANAGER_REGISTRY_NAME):
 		reg = {}

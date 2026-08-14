@@ -47,8 +47,8 @@ func generate_image():
 	
 func _init(texture: Texture2D = null, default_size: int = 16) -> void:
 	if is_instance_valid(texture):
-		default_size = default_size
-		orig_image = texture
+		self.default_size = default_size
+		self.orig_image = texture
 	
 	var reg: Dictionary[int, WeakRef]
 	if !Engine.has_meta(PluginGlobals.ROXY_SQLITE_MANAGER_REGISTRY_NAME):

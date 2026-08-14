@@ -31,10 +31,16 @@ func generate_image():
 		for x in range(0, img.get_width()):
 			for y in range(0, img.get_height()):
 				var p = img.get_pixel(x, y)
+				
+				# Replace only color channel, to keep transparent pixel
+				# Only monochrome icon was relevant here
 				p.r = current_editor_color.r
 				p.g = current_editor_color.g
 				p.b = current_editor_color.b
+				
+				# Apply light to color to avoid darkest colors to full black and make they to reacts to editor color modulation
 				p = p.lightened(0.2)
+				
 				img.set_pixel(x,y,p)
 		
 		self.set_image(img)

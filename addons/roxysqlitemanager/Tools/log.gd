@@ -3,10 +3,7 @@ const ROXY_LOG_PLUGINNAME = "Roxy SQLite Manager"
 	
 ## INTERNAL - Format log global string and parameters
 static func _format_log(format: String, params: Array) -> String:
-	if params.is_empty():
-		return format
-	else:
-		return ("[%s] %s: %s" % [ROXY_LOG_PLUGINNAME, Time.get_time_string_from_system(), format % params]).replace("[","[lb]")
+		return ("[%s] %s: %s" % [ROXY_LOG_PLUGINNAME, Time.get_time_string_from_system(), (format % params) if !params.is_empty() else format]).replace("[","[lb]")
 
 ## Log an information
 static func info(format: String, ...params: Array):

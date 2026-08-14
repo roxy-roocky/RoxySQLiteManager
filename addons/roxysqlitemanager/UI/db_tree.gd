@@ -29,6 +29,16 @@ class _DbInfos:
 					Log.error("Error when opening \"%s\": %s", filename, sqlite.error_message)
 					sqlite = null
 
+func _ready() -> void:
+	_adapt_theme()
+
+var _recursive_lock := false
+func _adapt_theme() -> void:
+	if !_recursive_lock:
+		_recursive_lock = true
+		add_theme_stylebox_override("panel", get_theme_stylebox("normal", &"CodeEdit"))
+		_recursive_lock = false
+
 var _registry: Dictionary[TreeItem, _DbInfos] = {}
 
 func database_add(filename: String, create: bool = false) -> bool:

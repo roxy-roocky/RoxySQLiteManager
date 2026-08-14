@@ -72,7 +72,6 @@ initial_position = 2
 file_mode = 0
 display_mode = 1
 filters = PackedStringArray("*.db; SQLite Database")
-use_native_dialog = true
 
 [node name="CreateDatabaseFileDialog" type="FileDialog" parent="." unique_id=1342042901]
 oversampling_override = 1.0
@@ -80,7 +79,6 @@ title = "Create SQLite database"
 initial_position = 2
 display_mode = 1
 filters = PackedStringArray("*.db; SQLite Database")
-use_native_dialog = true
 
 [node name="Split" type="HSplitContainer" parent="." unique_id=1848100582]
 layout_mode = 2
@@ -125,6 +123,7 @@ theme_override_constants/icon_max_width = 25
 
 [node name="DbTree" type="Tree" parent="Split/PanelContainer/VBoxContainer" unique_id=1914268261]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(350, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3

@@ -1,6 +1,12 @@
 @tool
 extends Tree
 
+const BTN_DB_CLOSE = 0
+const BTN_DB_REFRESH = 1
+const BTN_TABLE_CREATE = 100
+const BTN_TABLE_DELETE = 101
+const BTN_TABLE_EDIT = 102
+
 # Instantiate contextual log for DbTree
 @onready var _log = preload("res://addons/roxysqlitemanager/Tools/log.gd").ContextualLog.new("DbTree")
 
@@ -9,6 +15,10 @@ extends Tree
 @onready var icon_folder: Texture2D = RoxyThemableIcon.new(preload("res://addons/roxysqlitemanager/Icons/folder.svg"), 16)
 @onready var icon_opened_folder: Texture2D = RoxyThemableIcon.new(preload("res://addons/roxysqlitemanager/Icons/folder-open.svg"), 16)
 @onready var icon_close: Texture2D = RoxyThemableIcon.new(preload("res://addons/roxysqlitemanager/Icons/xmark.svg"), 16)
+@onready var icon_add: Texture2D = RoxyThemableIcon.new(preload("res://addons/roxysqlitemanager/Icons/add.svg"), 16)
+@onready var icon_delete: Texture2D = RoxyThemableIcon.new(preload("res://addons/roxysqlitemanager/Icons/trash-can.svg"), 16)
+@onready var icon_edit: Texture2D = RoxyThemableIcon.new(preload("res://addons/roxysqlitemanager/Icons/edit.svg"), 16)
+@onready var icon_refresh: Texture2D = RoxyThemableIcon.new(preload("res://addons/roxysqlitemanager/Icons/refresh.svg"), 16)
 
 @onready var root: TreeItem = create_item()
 
@@ -35,6 +45,11 @@ func _ready() -> void:
 	_adapt_theme()
 	set_column_expand(0, true)
 	set_column_expand(1, false)
+	
+func _exit_tree() -> void:
+	# Explicitly close all databases
+	for item_db in _registry.keys():
+		database_close(item_db)
 
 var _recursive_lock := false
 func _adapt_theme() -> void:
@@ -47,7 +62,7 @@ var _registry: Dictionary[TreeItem, _DbInfos] = {}
 
 func database_add(filename: String, create: bool = false) -> bool:
 	var db := _DbInfos.new(_log, filename, create)
-	
+
 	if !db.sqlite:
 		return false
 		
@@ -55,11 +70,14 @@ func database_add(filename: String, create: bool = false) -> bool:
 	item.set_icon(0, icon_database)
 	item.set_text(0, db.dbname)
 	
-	item.add_button(1, icon_close, 0, false, "Close database")
+	item.add_button(1, icon_refresh, BTN_DB_REFRESH, false, "Refresh database informations")
+	item.add_button(1, icon_close, BTN_DB_CLOSE, false, "Close database")
 	
 	_registry[item] = db
 	
 	_log.info("Register database %s" % db.dbname)
+	
+	database_list_tables(item)
 	
 	return true
 
@@ -77,11 +95,53 @@ func database_close(item: TreeItem) -> bool:
 	_registry.erase(item)
 	
 	root.remove_child(item)
+	_clear_treeitem(item)
+	item.free()
 	
 	_log.info("Close database %s" % db.dbname)
 	
 	return true
 
+func database_list_tables(db_item: TreeItem) -> void:
+	var db = _registry[db_item]
+	
+	# Empty the database tree item
+	_clear_treeitem(db_item)
+	
+	if !db.sqlite.query("
+		SELECT name 
+		FROM sqlite_master 
+		WHERE type = 'table' and name not like 'sqlite_%'
+	"):
+		_log.error("Cannot list tables from %s" % db.dbname)
+		return
+	
+	var tables := db.sqlite.query_result as Array[Dictionary]
+	var tables_item = create_item(db_item, 0)
+	tables_item.set_icon(0, icon_folder)
+	tables_item.set_text(0, "Tables (%d)" % tables.size())
+	tables_item.add_button(1, icon_add, BTN_TABLE_CREATE, false, "Add table to database")
+	tables_item.set_collapsed_recursive(true)
+	
+	for table in tables:
+		var t_item = create_item(tables_item)
+		t_item.set_icon(0, icon_table)
+		t_item.set_text(0, table["name"])
+		t_item.add_button(1, icon_edit, BTN_TABLE_EDIT, false, "Edit table column and indexes")
+		t_item.add_button(1, icon_delete, BTN_TABLE_DELETE, false, "Delete table")
+		
+	_log.info("Read %d tables in database %s" % [tables.size(), db.dbname])
+	
+func _clear_treeitem(item: TreeItem):
+	for child in item.get_children():
+		_clear_treeitem(child)
+		item.remove_child(child)
+		child.free()
+
 func _on_button_clicked(item: TreeItem, column: int, id: int, mouse_button_index: int) -> void:
-	if column == 1 and id == 0 and mouse_button_index == MOUSE_BUTTON_LEFT:
-		database_close(item)
+	if mouse_button_index == MOUSE_BUTTON_LEFT:
+		match id:
+			BTN_DB_CLOSE:
+				database_close(item)
+			BTN_DB_REFRESH:
+				database_list_tables(item)

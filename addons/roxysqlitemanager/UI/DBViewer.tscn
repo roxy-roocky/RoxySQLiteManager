@@ -193,4 +193,5 @@ metadata/_tab_name = "testDb.Users - Properties"
 [connection signal="id_pressed" from="Split/PanelContainer/VBoxContainer/HBoxContainer/DbMenuBar/Databases" to="." method="_on_databases_menu_id_pressed"]
 [connection signal="about_to_popup" from="Split/PanelContainer/VBoxContainer/HBoxContainer/DbMenuBar/🔄" to="." method="_on_debug_button_pressed"]
 [connection signal="button_clicked" from="Split/PanelContainer/VBoxContainer/DbTree" to="Split/PanelContainer/VBoxContainer/DbTree" method="_on_button_clicked"]
+[connection signal="item_collapsed" from="Split/PanelContainer/VBoxContainer/DbTree" to="Split/PanelContainer/VBoxContainer/DbTree" method="_on_item_collapsed"]
 [connection signal="theme_changed" from="Split/PanelContainer/VBoxContainer/DbTree" to="Split/PanelContainer/VBoxContainer/DbTree" method="_adapt_theme"]

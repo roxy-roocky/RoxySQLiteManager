@@ -7,6 +7,25 @@ const BTN_TABLE_CREATE = 100
 const BTN_TABLE_DELETE = 101
 const BTN_TABLE_EDIT = 102
 
+enum _TreeitemTypes {
+	DATABASE,
+	FOLDER_TABLES,
+	TABLE
+}
+
+func _check_treeitem_type(item: TreeItem, action: String, type: _TreeitemTypes, silent: bool = false) -> bool:
+	if !is_instance_valid(item):
+		if !silent:
+			_log.error("Attempt to %s from an invalid treeitem" % action)
+		return false
+		
+	if item.get_meta("type") != type:
+		if !silent:
+			_log.error("Attempt to %s from a non-%s treeitem" % [action, _TreeitemTypes.find_key(type).to_lower()])
+		return false
+		
+	return true
+
 # Instantiate contextual log for DbTree
 @onready var _log = preload("res://addons/roxysqlitemanager/Tools/log.gd").ContextualLog.new("DbTree")
 
@@ -67,6 +86,7 @@ func database_add(filename: String, create: bool = false) -> bool:
 		return false
 		
 	var item := create_item(root)
+	item.set_meta("type", _TreeitemTypes.DATABASE)
 	item.set_icon(0, icon_database)
 	item.set_text(0, db.dbname)
 	
@@ -82,8 +102,7 @@ func database_add(filename: String, create: bool = false) -> bool:
 	return true
 
 func database_close(item: TreeItem) -> bool:
-	if !is_instance_valid(item):
-		_log.error("Attempt to remove invalid treeitem")
+	if !_check_treeitem_type(item, "close database", _TreeitemTypes.DATABASE):
 		return false
 		
 	if !_registry.has(item):
@@ -103,8 +122,10 @@ func database_close(item: TreeItem) -> bool:
 	return true
 
 func database_list_tables(db_item: TreeItem) -> void:
+	if !_check_treeitem_type(db_item, "list tables", _TreeitemTypes.DATABASE):
+		return
+		
 	var db = _registry[db_item]
-	
 	# Empty the database tree item
 	_clear_treeitem(db_item)
 	
@@ -118,6 +139,7 @@ func database_list_tables(db_item: TreeItem) -> void:
 	
 	var tables := db.sqlite.query_result as Array[Dictionary]
 	var tables_item = create_item(db_item, 0)
+	tables_item.set_meta("type", _TreeitemTypes.FOLDER_TABLES)
 	tables_item.set_icon(0, icon_folder)
 	tables_item.set_text(0, "Tables (%d)" % tables.size())
 	tables_item.add_button(1, icon_add, BTN_TABLE_CREATE, false, "Add table to database")
@@ -125,6 +147,7 @@ func database_list_tables(db_item: TreeItem) -> void:
 	
 	for table in tables:
 		var t_item = create_item(tables_item)
+		t_item.set_meta("type", _TreeitemTypes.TABLE)
 		t_item.set_icon(0, icon_table)
 		t_item.set_text(0, table["name"])
 		t_item.add_button(1, icon_edit, BTN_TABLE_EDIT, false, "Edit table column and indexes")
@@ -145,3 +168,7 @@ func _on_button_clicked(item: TreeItem, column: int, id: int, mouse_button_index
 				database_close(item)
 			BTN_DB_REFRESH:
 				database_list_tables(item)
+
+func _on_item_collapsed(item: TreeItem) -> void:
+	if _check_treeitem_type(item, "", _TreeitemTypes.FOLDER_TABLES, true):
+		item.set_icon(0, icon_folder if item.collapsed else icon_opened_folder)

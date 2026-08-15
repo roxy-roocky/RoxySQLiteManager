@@ -13,6 +13,8 @@ enum _TreeitemTypes {
 	TABLE
 }
 
+const Database = preload("res://addons/roxysqlitemanager/Database/Database.gd")
+
 func _check_treeitem_type(item: TreeItem, action: String, type: _TreeitemTypes, silent: bool = false) -> bool:
 	if !is_instance_valid(item):
 		if !silent:
@@ -41,25 +43,6 @@ func _check_treeitem_type(item: TreeItem, action: String, type: _TreeitemTypes, 
 
 @onready var root: TreeItem = create_item()
 
-class _DbInfos:
-	var filename: String
-	var dbname: String
-	var sqlite: SQLite = null
-	func _init(log, filename: String, create: bool = false) -> void:
-			if !create and !FileAccess.file_exists(filename):
-				log.error("\"%s\" not exists.", filename)
-			else:
-				self.filename = filename
-				self.dbname = filename.get_file().replace(filename.get_extension(), "").trim_suffix(".").replace_chars(" \t\n", ord("_"))
-				
-				self.sqlite = SQLite.new()
-				self.sqlite.path = filename
-				self.sqlite.open_db()
-				
-				if !sqlite.error_message.is_empty():
-					log.error("Error when opening \"%s\": %s", filename, sqlite.error_message)
-					sqlite = null
-
 func _ready() -> void:
 	_adapt_theme()
 	set_column_expand(0, true)
@@ -77,10 +60,10 @@ func _adapt_theme() -> void:
 		add_theme_stylebox_override("panel", get_theme_stylebox("normal", &"CodeEdit"))
 		_recursive_lock = false
 
-var _registry: Dictionary[TreeItem, _DbInfos] = {}
+var _registry: Dictionary[TreeItem, Database] = {}
 
 func database_add(filename: String, create: bool = false) -> bool:
-	var db := _DbInfos.new(_log, filename, create)
+	var db := Database.new(_log, filename, create)
 
 	if !db.sqlite:
 		return false
@@ -129,15 +112,7 @@ func database_list_tables(db_item: TreeItem) -> void:
 	# Empty the database tree item
 	_clear_treeitem(db_item)
 	
-	if !db.sqlite.query("
-		SELECT name 
-		FROM sqlite_master 
-		WHERE type = 'table' and name not like 'sqlite_%'
-	"):
-		_log.error("Cannot list tables from %s" % db.dbname)
-		return
-	
-	var tables := db.sqlite.query_result as Array[Dictionary]
+	var tables := db.fetch_tables_list()
 	var tables_item = create_item(db_item, 0)
 	tables_item.set_meta("type", _TreeitemTypes.FOLDER_TABLES)
 	tables_item.set_icon(0, icon_folder)
@@ -149,7 +124,7 @@ func database_list_tables(db_item: TreeItem) -> void:
 		var t_item = create_item(tables_item)
 		t_item.set_meta("type", _TreeitemTypes.TABLE)
 		t_item.set_icon(0, icon_table)
-		t_item.set_text(0, table["name"])
+		t_item.set_text(0, table)
 		t_item.add_button(1, icon_edit, BTN_TABLE_EDIT, false, "Edit table column and indexes")
 		t_item.add_button(1, icon_delete, BTN_TABLE_DELETE, false, "Delete table")
 		

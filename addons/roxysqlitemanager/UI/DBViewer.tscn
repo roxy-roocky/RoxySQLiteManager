@@ -69,6 +69,7 @@ script = ExtResource("1_m7rx5")
 oversampling_override = 1.0
 title = "Open a File"
 initial_position = 2
+size = Vector2i(800, 600)
 file_mode = 0
 display_mode = 1
 filters = PackedStringArray("*.db; SQLite Database")
@@ -77,6 +78,7 @@ filters = PackedStringArray("*.db; SQLite Database")
 oversampling_override = 1.0
 title = "Create SQLite database"
 initial_position = 2
+size = Vector2i(800, 600)
 display_mode = 1
 filters = PackedStringArray("*.db; SQLite Database")
 

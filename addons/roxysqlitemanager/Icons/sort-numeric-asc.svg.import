@@ -1,0 +1,22 @@
+[remap]
+
+importer="svg"
+type="DPITexture"
+uid="uid://djgkkwghpvfxa"
+path="res://.godot/imported/sort-numeric-asc.svg-5d21f5682d0a56dee9205d56b7134c96.dpitex"
+
+[deps]
+
+source_file="res://addons/roxysqlitemanager/Icons/sort-numeric-asc.svg"
+dest_files=["res://.godot/imported/sort-numeric-asc.svg-5d21f5682d0a56dee9205d56b7134c96.dpitex"]
+
+[params]
+
+base_scale=1.0
+saturation=1.0
+color_map={
+Color(0, 0, 0, 1): Color(1, 1, 1, 1)
+}
+fix_alpha_border=false
+premult_alpha=false
+compress=true

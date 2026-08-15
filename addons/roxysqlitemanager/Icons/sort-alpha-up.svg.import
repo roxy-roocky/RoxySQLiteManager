@@ -1,0 +1,22 @@
+[remap]
+
+importer="svg"
+type="DPITexture"
+uid="uid://d4b1dnmd4ijir"
+path="res://.godot/imported/sort-alpha-up.svg-29815b4f44f0506235210dbb99144953.dpitex"
+
+[deps]
+
+source_file="res://addons/roxysqlitemanager/Icons/sort-alpha-up.svg"
+dest_files=["res://.godot/imported/sort-alpha-up.svg-29815b4f44f0506235210dbb99144953.dpitex"]
+
+[params]
+
+base_scale=1.0
+saturation=1.0
+color_map={
+Color(0, 0, 0, 1): Color(1, 1, 1, 1)
+}
+fix_alpha_border=false
+premult_alpha=false
+compress=true

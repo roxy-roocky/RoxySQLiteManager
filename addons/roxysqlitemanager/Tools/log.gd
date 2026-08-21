@@ -7,7 +7,7 @@ const _WARNING_FORMAT = "[color=orange]%s[/color]"
 ## INTERNAL - Format log global string and parameters
 static func _format_log(context: String, format: String, params: Array) -> String:
 		return ("[%s%s] %s: %s" % [ROXY_LOG_PLUGINNAME, 
-			(" | %s" % context if !context.is_empty() else "") , 
+			(" > %s" % context if !context.is_empty() else "") , 
 			Time.get_time_string_from_system(), 
 			(format % params) if !params.is_empty() else format]
 		).replace("[","[lb]")

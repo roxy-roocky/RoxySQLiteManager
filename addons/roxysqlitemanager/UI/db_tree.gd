@@ -1,6 +1,10 @@
 @tool
 extends Tree
 
+signal database_exited(db: Database)
+signal database_refreshed(db: Database)
+signal table_deleted(table: Table)
+
 const BTN_DB_CLOSE = 0
 const BTN_DB_REFRESH = 1
 const BTN_TABLE_CREATE = 100
@@ -14,6 +18,7 @@ enum _TreeitemTypes {
 }
 
 const Database = preload("res://addons/roxysqlitemanager/Database/Database.gd")
+const Table = preload("res://addons/roxysqlitemanager/Database/Table.gd")
 
 func _check_treeitem_type(item: TreeItem, action: String, type: _TreeitemTypes, silent: bool = false) -> bool:
 	if !is_instance_valid(item):
@@ -43,6 +48,9 @@ func _check_treeitem_type(item: TreeItem, action: String, type: _TreeitemTypes, 
 
 @onready var root: TreeItem = create_item()
 
+const TableColumnsScript = preload("res://addons/roxysqlitemanager/UI/Tabs/TableColumns/table_columns.gd")
+const table_columns_prefab: PackedScene = preload("res://addons/roxysqlitemanager/UI/Tabs/TableColumns/table_columns.tscn")
+
 func _ready() -> void:
 	_adapt_theme()
 	set_column_expand(0, true)
@@ -61,6 +69,8 @@ func _adapt_theme() -> void:
 		_recursive_lock = false
 
 var _registry: Dictionary[TreeItem, Database] = {}
+
+
 
 func database_add(filename: String, create: bool = false) -> bool:
 	var db := Database.new(_log, filename, create)
@@ -84,6 +94,22 @@ func database_add(filename: String, create: bool = false) -> bool:
 	
 	return true
 
+func database_refresh(item: TreeItem) -> bool:
+	if !_check_treeitem_type(item, "refresh database", _TreeitemTypes.DATABASE):
+		return false
+		
+	if !_registry.has(item):
+		_log.error("Attempt to remove not owned treeitem")
+		return false
+	
+	var db: Database = _registry[item]
+	db.refresh_structure()
+	self.database_list_tables(item)
+	
+	self.database_refreshed.emit(db)
+	
+	return true
+
 func database_close(item: TreeItem) -> bool:
 	if !_check_treeitem_type(item, "close database", _TreeitemTypes.DATABASE):
 		return false
@@ -93,6 +119,9 @@ func database_close(item: TreeItem) -> bool:
 		return false
 	
 	var db = _registry[item]
+	
+	self.database_exited.emit(db)
+	
 	db.sqlite.close_db()
 	_registry.erase(item)
 	
@@ -112,23 +141,29 @@ func database_list_tables(db_item: TreeItem) -> void:
 	# Empty the database tree item
 	_clear_treeitem(db_item)
 	
-	var tables := db.fetch_tables_list()
 	var tables_item = create_item(db_item, 0)
 	tables_item.set_meta("type", _TreeitemTypes.FOLDER_TABLES)
 	tables_item.set_icon(0, icon_folder)
-	tables_item.set_text(0, "Tables (%d)" % tables.size())
+	tables_item.set_text(0, "Tables (%d)" % db.tables.size())
 	tables_item.add_button(1, icon_add, BTN_TABLE_CREATE, false, "Add table to database")
 	tables_item.set_collapsed_recursive(true)
 	
-	for table in tables:
+	for table in db.tables.values():
 		var t_item = create_item(tables_item)
 		t_item.set_meta("type", _TreeitemTypes.TABLE)
+		
+		# I prefer store Weakref in an Object that can be subject to data leak due to forgotten free() call
+		t_item.set_meta("ref", weakref(table))
+		t_item.set_meta("db_ref", weakref(db))
+		
 		t_item.set_icon(0, icon_table)
-		t_item.set_text(0, table)
+		t_item.set_text(0, table.name)
 		t_item.add_button(1, icon_edit, BTN_TABLE_EDIT, false, "Edit table column and indexes")
 		t_item.add_button(1, icon_delete, BTN_TABLE_DELETE, false, "Delete table")
 		
-	_log.info("Read %d tables in database %s" % [tables.size(), db.dbname])
+	_log.info("Read %d tables in database %s" % [db.tables.size(), db.dbname])
+	
+	
 	
 func _clear_treeitem(item: TreeItem):
 	for child in item.get_children():
@@ -136,14 +171,38 @@ func _clear_treeitem(item: TreeItem):
 		item.remove_child(child)
 		child.free()
 
+func table_open_columns_tab(item: TreeItem):
+	if ! _check_treeitem_type(item, "open table columns tab", _TreeitemTypes.TABLE):
+		return
+	
+	var table_ref = item.get_meta("ref") as WeakRef
+	var db_ref = item.get_meta("db_ref") as WeakRef
+	if table_ref and db_ref:
+		%TabManager.open_table_columns_tab(table_ref.get_ref(), db_ref.get_ref())
+	else:
+		_log.error("No Table in metadata of TreeItem")
+
 func _on_button_clicked(item: TreeItem, column: int, id: int, mouse_button_index: int) -> void:
 	if mouse_button_index == MOUSE_BUTTON_LEFT:
 		match id:
 			BTN_DB_CLOSE:
 				database_close(item)
 			BTN_DB_REFRESH:
-				database_list_tables(item)
+				database_refresh(item)
+			BTN_TABLE_EDIT:
+				table_open_columns_tab(item)
 
 func _on_item_collapsed(item: TreeItem) -> void:
 	if _check_treeitem_type(item, "", _TreeitemTypes.FOLDER_TABLES, true):
 		item.set_icon(0, icon_folder if item.collapsed else icon_opened_folder)
+
+func _on_item_activated() -> void:
+	var item: TreeItem = self.get_selected()
+	var type: _TreeitemTypes = item.get_meta("type")
+	
+	match type:
+		_TreeitemTypes.TABLE:
+			self.table_open_columns_tab(item)
+		_TreeitemTypes.FOLDER_TABLES, _TreeitemTypes.DATABASE:
+			item.collapsed = !item.collapsed
+	

@@ -29,6 +29,7 @@ This addon cannot exists without [Godot SQLite plugin](https://github.com/2shady
   - [ ] CSV
 - [ ] Additional content
   - [ ] Godot editor wide saved custom SQL queries/scripts to execute in opened database/table (custom action)
+  - [ ] Use Godot CodeEdit capabilities to implements SQL autocompletion
 
 ## License
 

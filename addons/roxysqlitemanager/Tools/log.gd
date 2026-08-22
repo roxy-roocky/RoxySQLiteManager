@@ -1,13 +1,16 @@
 
 const ROXY_LOG_PLUGINNAME = "Roxy SQLite Manager"
 
-const _ERROR_FORMAT = "[b][color=red]%s[/color][/b]"
-const _WARNING_FORMAT = "[color=orange]%s[/color]"
+const _ERROR_FORMAT = "[b][color=%s]%s[/color][/b]"
+const _WARNING_FORMAT = "[color=%s]%s[/color]"
+
+static var error_color: String = "red"
+static var warning_color: String = "orange"
 
 ## INTERNAL - Format log global string and parameters
 static func _format_log(context: String, format: String, params: Array) -> String:
 		return ("[%s%s] %s: %s" % [ROXY_LOG_PLUGINNAME, 
-			(" | %s" % context if !context.is_empty() else "") , 
+			(" > %s" % context if !context.is_empty() else "") , 
 			Time.get_time_string_from_system(), 
 			(format % params) if !params.is_empty() else format]
 		).replace("[","[lb]")
@@ -18,11 +21,11 @@ static func info(format: String, ...params: Array):
 
 ## Log an global error in red and bold
 static func error(format: String, ...params: Array):
-	print_rich(_ERROR_FORMAT % _format_log("",format, params))
+	print_rich(_ERROR_FORMAT % [error_color, _format_log("",format, params)])
 	
 ## Log a global warning in yellow
 static func warning(format: String, ...params: Array):
-	print_rich(_WARNING_FORMAT % _format_log("",format, params))
+	print_rich(_WARNING_FORMAT % [warning_color, _format_log("",format, params)])
 	
 
 const Log = preload("res://addons/roxysqlitemanager/Tools/log.gd")

@@ -25,6 +25,5 @@ func _on_databases_menu_id_pressed(id: int) -> void:
 		1: # Create
 			$CreateDatabaseFileDialog.popup()
 
-
 func _on_database_file_dialog_file_selected(path: String, create: bool) -> void:
 	%DbTree.database_add(path, create)

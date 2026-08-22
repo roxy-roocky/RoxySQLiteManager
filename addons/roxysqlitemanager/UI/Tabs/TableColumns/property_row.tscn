@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://bgg2kmtnnt2eo"]
+
+[node name="PropertyRow" type="HBoxContainer" unique_id=1857686491]
+
+[node name="NameEdit" type="LineEdit" parent="." unique_id=837391468]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TypeEdit" type="LineEdit" parent="." unique_id=1954821876]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2

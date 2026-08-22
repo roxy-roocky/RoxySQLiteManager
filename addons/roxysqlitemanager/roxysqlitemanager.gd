@@ -2,6 +2,7 @@
 extends EditorPlugin
 
 const PluginGlobals = preload("res://addons/roxysqlitemanager/globals.gd")
+const Log = preload("res://addons/roxysqlitemanager/Tools/log.gd")
 
 var plugin_icon: RoxyThemableIcon
 var main_control_instance: Control
@@ -13,6 +14,7 @@ func _disable_plugin() -> void:
 	pass
 
 func _enter_tree() -> void:
+	_update_log_color()
 	load_main_control()
 
 func load_main_control() -> void:
@@ -52,6 +54,7 @@ func _get_plugin_name() -> String:
 
 func _on_theme_change() -> void:
 	_load_plugin_icon()
+	_update_log_color()
 	
 	# Change all RoxyThemableIcon color according to new theme
 	var icons_reg := Engine.get_meta(PluginGlobals.ROXY_SQLITE_MANAGER_REGISTRY_NAME) as Dictionary[int, WeakRef]
@@ -70,3 +73,7 @@ func _load_plugin_icon() -> void:
 		plugin_icon = RoxyThemableIcon.new()
 		plugin_icon.orig_image = load("res://addons/roxysqlitemanager/Icons/database.svg")
 		plugin_icon.default_size = 16
+
+func _update_log_color() -> void:
+	Log.error_color = EditorInterface.get_editor_theme().get_color("error_color", "Editor").to_html(false)
+	Log.warning_color = EditorInterface.get_editor_theme().get_color("warning_color", "Editor").to_html(false)
